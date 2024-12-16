@@ -1,17 +1,11 @@
 package jdbcdemo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class ShowRecords {
 	static void showAllBooks() throws Exception{
-		String url = "jdbc:mysql://localhost:3306/manvi?allowPublicKeyRetrieval=true&useSSL=false"; // db name - manvi
-		String username = "root";
-		String password = "Shiva@12"; 
-		Class.forName("com.mysql.cj.jdbc.Driver"); 
-		Connection con = DriverManager.getConnection(url, username, password);
+		Connection con = GetDBConnection.getDBConnection();
+
 		String query = "select * from bookrecord"; // query to be run
 		PreparedStatement pstmt = con.prepareStatement(query);
 		ResultSet rs = pstmt.executeQuery();
@@ -19,7 +13,7 @@ public class ShowRecords {
 
 		while(rs.next()) {
 			// id, author_name, book_name, quantity_available
-			int id = rs.getInt("id");
+			int id = rs.getInt("book_id");
 			String author_name = rs.getString("author_name");
 			String book_name = rs.getString("book_name");
 			int quantity_available = rs.getInt("quantity_available");
